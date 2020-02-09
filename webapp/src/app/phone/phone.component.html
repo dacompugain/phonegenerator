@@ -1,0 +1,30 @@
+<div class="phone-section">
+    Area code is optional, other fields required.
+  <div class="row">
+    <form class="col s6" [formGroup]="numberForm" (ngSubmit)="getPhoneCombinationsFromHttp()">
+      <div class="row">
+        <div class="input-field col s2">
+          <input type="text" formControlName="area" placeholder="916">
+        </div>
+        <div class="input-field col s2">
+          <input required type="text" formControlName="prefix" placeholder="555">
+        </div>
+        <div class="input-field col s2">
+          <input required type="text" formControlName="line" placeholder="5555">
+        </div>
+      </div>
+      <div class="row">
+        <input (click)="offset = 0" [disabled]="!numberForm.valid" type="submit">
+      </div>
+    </form>
+  </div>
+  <div *ngIf="phoneResponse">
+    <div>Total number of combinations: {{ phoneResponse?.totalCount }} </div>
+    <div *ngFor="let combo of phoneResponse.combinations">
+      {{ combo }}
+    </div>
+    <app-pagination [offset]="offset" [limit]="resultsPerPage" [size]="phoneResponse.totalCount"
+      (pageChange)="pageChange($event)">
+    </app-pagination>
+  </div>
+</div>
